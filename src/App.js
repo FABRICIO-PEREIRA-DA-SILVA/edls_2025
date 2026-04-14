@@ -478,7 +478,7 @@ export default function App() {
               </div>
             )}
 
-            <p>
+            <p style={{ lineHeight: "2" }}>
               <strong style={{ backgroundColor: "lightgray", padding: "5px" }}>
                 Endereço:
               </strong>
