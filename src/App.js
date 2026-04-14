@@ -38,6 +38,28 @@ export default function App() {
   //const [mapVisible, setMapVisible] = useState(true);
   //const [destinoSelecionado, setDestinoSelecionado] = useState(null);
   //const [modalBaixoAberto, setModalBaixoAberto] = useState(false);
+
+  useEffect(() => {
+    const algumModalAberto = isMapVisible || mostrarMensagem || modalVisivel;
+
+    if (algumModalAberto) {
+      history.pushState({ modalAberto: true }, "");
+    }
+
+    const handlePopState = () => {
+      if (isMapVisible) setIsMapVisible(false);
+      else if (mostrarMensagem) setMostrarMensagem(false);
+      else if (modalVisivel) closeImageModal();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [isMapVisible, mostrarMensagem, modalVisivel]);
+
+  
   // NOVO useEffect para controlar o overflow do body
   useEffect(() => {
     if (isMapVisible) {
