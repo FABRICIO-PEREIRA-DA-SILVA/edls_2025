@@ -1,8 +1,24 @@
 // HistoricoTabela.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const HistoricoTabela = ({ dados }) => {
   const [mostrarTabela, setMostrarTabela] = useState(false);
+
+  useEffect(() => {
+    if (mostrarTabela) {
+      history.pushState({ modalAberto: true }, "");
+    }
+
+    const handlePopState = () => {
+      if (mostrarTabela) setMostrarTabela(false);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [mostrarTabela]);
 
   // 1. Processamento das Manutenções Normais
   const linhasManutencao = [];
