@@ -4,140 +4,140 @@ import React, { useState } from "react";
 const HistoricoTabela = ({ dados }) => {
   const [mostrarTabela, setMostrarTabela] = useState(false);
 
-  // 1. Lista de colunas atualizada para refletir os novos campos e a ordem
-  const colunas = [
-    "Data de Manutenção",
-    "Nome do Agente",
-    "Responsável Imóvel", // Corresponde a 'Responsavel_Imovel_Historico'
-    "Telef.",              // Novo campo
-    "Ciclo",               // Corresponde a 'Ciclo_Historico'
-    "Nível de água na EDL",// Corresponde a 'Nivel_de_agua_na_EDL_Historico'
-    "Tipo de Novidades",   // Corresponde a 'Tipo_de_Novidades_Historico'
-    "Troca Rede",          // Novo campo
-    "Qtd. Larvas",         // Novo campo
-    "Observações",         // Corresponde a 'Observacoes_Historico'
-  ];
-
-  const linhas = [];
-
-  for (let i = 1; i <= 9; i++) {
-    const data = dados[`Data_de_Manutencao_${i}`];
-    if (data && data.toLowerCase() !== "nan" && data.trim() !== "") {
-      // 2. Extração de linhas atualizada com os novos nomes de chaves
-      linhas.push({
+  // 1. Processamento das Manutenções Normais
+  const linhasManutencao = [];
+  for (let i = 1; i <= 20; i++) {
+    const data = dados[`Data_Manutencao_${i}`];
+    if (data && data !== "nan" && data.trim() !== "") {
+      linhasManutencao.push({
         data,
-        agente: dados[`Nome_do_Agente_${i}`] || "-",
-        responsavel: dados[`Responsavel_Imovel_Historico_${i}`] || "-", // Nome da chave atualizado
-        telefones: dados[`Telefones_Historico_${i}`] || "-",          // Novo campo
-        ciclo: dados[`Ciclo_Historico_${i}`] || "-",                  // Nome da chave atualizado
-        agua: dados[`Nivel_de_agua_na_EDL_Historico_${i}`] || "-",    // Nome da chave atualizado
-        novidades: dados[`Tipo_de_Novidades_Historico_${i}`] || "-",  // Nome da chave atualizado
-        trocaRede: dados[`Troca_Rede_${i}`] || "-",                   // Novo campo
-        qtdLarvas: dados[`Qtd_Larvas_${i}`] || "-",                   // Novo campo
-        obs: dados[`Observacoes_Historico_${i}`] || "-",              // Nome da chave atualizado
+        agente: dados[`Agente_${i}`] || "-",
+        responsavel: dados[`Resp_Imovel_${i}`] || "-",
+        telefones: dados[`Telef_${i}`] || "-",
+        ciclo: dados[`Ciclo_${i}`] || "-",
+        agua: dados[`Nivel_Agua_${i}`] || "-",
+        novidades: dados[`Tipo_Novidades_${i}`] || "-",
+        trocaRede: dados[`Troca_Rede_${i}`] || "-",
+        qtdLarvas: dados[`Qtd_Larvas_${i}`] || "-",
+        obs: dados[`Obs_Manutencao_${i}`] || "-",
       });
     }
   }
+
+  // 2. Processamento das Pendências
+  const linhasPendencias = [];
+  for (let i = 1; i <= 15; i++) {
+    // Agora o React busca pela chave correta que o Python gerou
+    const dataP = dados[`Data_Pend_${i}`]; 
+    if (dataP && dataP !== "nan" && dataP.trim() !== "") {
+      linhasPendencias.push({
+        data: dataP,
+        agente: dados[`Agente_Pend_${i}`] || "-",
+        responsavel: dados[`Resp_Pend_${i}`] || "-",
+        ciclo: dados[`Ciclo_Pend_${i}`] || "-",
+        trocaRede: dados[`Troca_Rede_Pend_${i}`] || "-",
+        agua: dados[`Nivel_Agua_Pend_${i}`] || "-",
+        novidades: dados[`Tipo_Novid_Pend_${i}`] || "-",
+        qtdLarvas: dados[`Qtd_Larvas_Pend_${i}`] || "-",
+        obs: dados[`Obs_Pend_${i}`] || "-",
+      });
+    }
+  }
+
+  const cabecalhoEstilo = {
+    backgroundColor: "#f8f9fa",
+    textAlign: "left",
+    padding: "8px",
+    borderBottom: "2px solid #dee2e6"
+  };
 
   return (
     <div>
       <button
         onClick={() => setMostrarTabela(true)}
-        style={{
-          display: "inline-block",
-          padding: "10px 20px",
-          backgroundColor: "#17a2b8",
-          color: "white",
-          textDecoration: "none",
-          borderRadius: "5px",
-          border: "none",
-          cursor: "pointer",
-          fontSize: "16px",
-        }}
+        style={{ padding: "10px 20px", backgroundColor: "#17a2b8", color: "white", borderRadius: "5px", border: "none", cursor: "pointer" }}
       >
         Histórico
       </button>
 
       {mostrarTabela && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 10000,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: 20,
-              borderRadius: 8,
-              maxHeight: "90vh",
-              overflowY: "auto",
-            }}
-          >
-            <h2>Histórico de Manutenções</h2>
-            <table border="1" cellPadding="5">
+        <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 10000 }}>
+          <div style={{ backgroundColor: "white", padding: 20, borderRadius: 8, maxHeight: "90vh", maxWidth: "95vw", overflow: "auto" }}>
+            
+            <h2 style={{ textAlign: "left" }}>Histórico Completo</h2>
+            
+            <table border="1" cellPadding="5" style={{ width: "100%", borderCollapse: "collapse", minWidth: "1000px" }}>
               <thead>
-                <tr>
-                  {colunas.map((col, i) => {
-                    let larguraMinima = "150px";
-
-                    // 4. Ajuste opcional para larguras mínimas e alinhamento
-                    if (i === 3 || i === 4 || i === 5 || i === 7 || i === 8) { // Telef., Ciclo, Nível de Água, Troca Rede, Qtd. Larvas
-                      larguraMinima = "80px"; // Largura menor para campos mais curtos
-                    }
-                    if (i === 9) { // Observações
-                      larguraMinima = "200px"; // Largura maior para observações
-                    }
-
-                    return (
-                      <th
-                        key={i}
-                        style={{
-                          minWidth: larguraMinima,
-                          textAlign: "left",
-                          whiteSpace: "normal",
-                        }}
-                      >
-                        {col}
-                      </th>
-                    );
-                  })}
+                <tr style={{ backgroundColor: "#e9ecef" }}>
+                  <th style={cabecalhoEstilo}>Data</th>
+                  <th style={cabecalhoEstilo}>Agente</th>
+                  <th style={cabecalhoEstilo}>Responsável</th>
+                  <th style={cabecalhoEstilo}>Ciclo</th>
+                  <th style={cabecalhoEstilo}>Troca Rede</th>
+                  <th style={cabecalhoEstilo}>Nível Água</th>
+                  <th style={cabecalhoEstilo}>Novidades</th>
+                  <th style={cabecalhoEstilo}>Qtd. Larvas</th>
+                  <th style={cabecalhoEstilo}>Observações</th>
                 </tr>
               </thead>
               <tbody>
-                {linhas.map((linha, i) => (
-                  <tr
-                    key={i}
-                    style={{
-                      backgroundColor: i % 2 === 0 ? "#fff9c4" : "#ffffff", // alterna cores
-                    }}
-                  >
-                    <td>{linha.data}</td>
-                    <td>{linha.agente}</td>
-                    <td>{linha.responsavel}</td>
-                    <td style={{ textAlign: "center" }}>{linha.telefones}</td> {/* Novo campo */}
-                    <td style={{ textAlign: "center" }}>{linha.ciclo}</td>
-                    <td style={{ textAlign: "center" }}>{linha.agua}</td>
-                    <td>{linha.novidades}</td>
-                    <td style={{ textAlign: "center" }}>{linha.trocaRede}</td> {/* Novo campo */}
-                    <td style={{ textAlign: "center" }}>{linha.qtdLarvas}</td> {/* Novo campo */}
-                    <td>{linha.obs}</td>
+                {/* Renderiza Manutenções */}
+                {linhasManutencao.map((l, i) => (
+                  <tr key={`man-${i}`} style={{ backgroundColor: i % 2 === 0 ? "#fff9c4" : "#fff" }}>
+                    <td>{l.data}</td>
+                    <td>{l.agente}</td>
+                    <td>{l.responsavel}</td>
+                    <td>{l.ciclo}</td>
+                    <td>{l.trocaRede}</td>
+                    <td>{l.agua}</td>
+                    <td>{l.novidades}</td>
+                    <td>{l.qtdLarvas}</td>
+                    <td>{l.obs}</td>
                   </tr>
                 ))}
+
+                {/* Linha de Separação e Título de Pendências */}
+                {linhasPendencias.length > 0 && (
+                  <>
+                    <tr style={{ height: "40px" }}><td colSpan="9" style={{ border: "none" }}></td></tr>
+                    <tr style={{ backgroundColor: "#f7c182" }}>
+                      <td colSpan="9" style={{ fontWeight: "bold", padding: "10px", textAlign: "left", fontSize: "1.1rem" }}>
+                        Histórico de Pendências
+                      </td>
+                    </tr>
+
+                    {/* Cabeçalho das pendências */}
+                    <tr style={{ backgroundColor: "#e9882a", color: "black" }}>
+                      <th style={cabecalhoEstilo}>Data de Manutenção</th>
+                      <th style={cabecalhoEstilo}>Nome do Agente</th>
+                      <th style={cabecalhoEstilo}>Responsável Imóvel</th>
+                      <th style={cabecalhoEstilo}>Ciclo</th>
+                      <th style={cabecalhoEstilo}>Troca Rede</th>
+                      <th style={cabecalhoEstilo}>Nível de Água na EDL</th>
+                      <th style={cabecalhoEstilo}>Tipo de Novidades</th>
+                      <th style={cabecalhoEstilo}>Qtde. Larvas</th>
+                      <th style={cabecalhoEstilo}>Observações</th>
+                    </tr>
+
+                    {linhasPendencias.map((l, i) => (
+                      <tr key={`pend-${i}`} style={{ backgroundColor: "#fdf2e2" }}>
+                        <td>{l.data}</td>
+                        <td>{l.agente}</td>
+                        <td>{l.responsavel}</td>
+                        <td>{l.ciclo}</td>
+                        <td>{l.trocaRede}</td>
+                        <td>{l.agua}</td>
+                        <td>{l.novidades}</td>
+                        <td>{l.qtdLarvas}</td>
+                        <td>{l.obs}</td>
+                      </tr>
+                    ))}
+                  </>
+                )}
               </tbody>
             </table>
-            <button
-              onClick={() => setMostrarTabela(false)}
-              style={{ marginTop: 10 }}
-            >
+
+            <button onClick={() => setMostrarTabela(false)} style={{ marginTop: 20, padding: "8px 16px", cursor: "pointer" }}>
               Fechar
             </button>
           </div>

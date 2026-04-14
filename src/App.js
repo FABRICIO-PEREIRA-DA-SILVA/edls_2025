@@ -136,17 +136,37 @@ export default function App() {
 
   const atualizarSugestoes = (valor) => {
     setPesquisa(valor);
-    if (valor.length > 0) {
-      const filtradas = bancoDeDados
-        .filter((item) =>
-          item.endereco.toLowerCase().includes(valor.toLowerCase())
-        )
-        .slice(0, 100); // Limita a exibição a 20 resultados
-      setSugestoes(filtradas);
-    } else {
-      setSugestoes([]);
-    }
+    setSugestoes([]); // limpa na hora, sem esperar o debounce
   };
+
+  useEffect(() => {
+    if (pesquisa.length === 0) {
+      setSugestoes([]);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      const termo = pesquisa.toLowerCase();
+
+      const filtradas = bancoDeDados
+        .filter((item) => item.endereco.toLowerCase().includes(termo))
+        .sort((a, b) => {
+          const aComeca = a.endereco.toLowerCase().startsWith(termo);
+          const bComeca = b.endereco.toLowerCase().startsWith(termo);
+          if (aComeca && !bComeca) return -1;
+          if (!aComeca && bComeca) return 1;
+          return 0;
+        })
+        .slice(0, 100);
+
+      console.log("TERMO USADO:", termo);
+      console.log("RESULTADOS:", filtradas.map(i => i.endereco));
+
+      setSugestoes(filtradas);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [pesquisa]);
 
   const toggleSelecionado = (item) => {
     setSelecionados((prevSelecionados) => {
