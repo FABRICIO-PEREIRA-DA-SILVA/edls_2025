@@ -325,14 +325,22 @@ export default function App() {
           alt="Imagem de dengue"
           style={styles.dengueImagem}
         />
-        <h1 style={styles.titulo}>
-          Pesquisa de Dados
-          <br />
-          <span style={{ fontSize: "12px", color: "#888", fontWeight: "normal" }}>
-            Atualizado 14/04/2026
-          </span>
-        </h1>
+        <h1 style={styles.titulo}>Pesquisa de Dados</h1>
       </div>
+
+      <span style={{
+        position: "fixed",
+        top: "12px",
+        right: "12px",
+        fontSize: "11px",
+        color: "#888",
+        backgroundColor: "#f4f4f4",
+        padding: "3px 7px",
+        borderRadius: "4px",
+        zIndex: 999,
+      }}>
+        Atualizado 14/04/2026
+      </span>
 
       <div style={styles.pesquisaContainer}>
         {" "}
