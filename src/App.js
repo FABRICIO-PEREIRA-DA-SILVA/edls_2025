@@ -59,7 +59,7 @@ export default function App() {
     };
   }, [isMapVisible, mostrarMensagem, modalVisivel]);
 
-  
+
   // NOVO useEffect para controlar o overflow do body
   useEffect(() => {
     if (isMapVisible) {
@@ -325,7 +325,13 @@ export default function App() {
           alt="Imagem de dengue"
           style={styles.dengueImagem}
         />
-        <h1 style={styles.titulo}>Pesquisa de Dados</h1>
+        <h1 style={styles.titulo}>
+          Pesquisa de Dados
+          <br />
+          <span style={{ fontSize: "12px", color: "#888", fontWeight: "normal" }}>
+            Atualizado 14/04/2026
+          </span>
+        </h1>
       </div>
 
       <div style={styles.pesquisaContainer}>
