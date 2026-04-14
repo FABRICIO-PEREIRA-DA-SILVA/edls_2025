@@ -72,10 +72,11 @@ const HistoricoTabela = ({ dados }) => {
                   <th style={cabecalhoEstilo}>Data</th>
                   <th style={cabecalhoEstilo}>Agente</th>
                   <th style={cabecalhoEstilo}>Responsável</th>
+                  <th style={cabecalhoEstilo}>Telef.</th>
                   <th style={cabecalhoEstilo}>Ciclo</th>
-                  <th style={cabecalhoEstilo}>Troca Rede</th>
                   <th style={cabecalhoEstilo}>Nível Água</th>
                   <th style={cabecalhoEstilo}>Novidades</th>
+                  <th style={cabecalhoEstilo}>Troca Rede</th>
                   <th style={cabecalhoEstilo}>Qtd. Larvas</th>
                   <th style={cabecalhoEstilo}>Observações</th>
                 </tr>
@@ -87,10 +88,11 @@ const HistoricoTabela = ({ dados }) => {
                     <td>{l.data}</td>
                     <td>{l.agente}</td>
                     <td>{l.responsavel}</td>
+                    <td>{l.telefones}</td>
                     <td>{l.ciclo}</td>
-                    <td>{l.trocaRede}</td>
                     <td>{l.agua}</td>
                     <td>{l.novidades}</td>
+                    <td>{l.trocaRede}</td>
                     <td>{l.qtdLarvas}</td>
                     <td>{l.obs}</td>
                   </tr>
